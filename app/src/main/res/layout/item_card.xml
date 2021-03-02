@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:textAlignment="center"
-        android:text="test"
-        android:textSize="34sp"
-        android:id="@+id/tv_card"
+    <ImageView
+        android:id="@+id/tv_CardList"
         android:layout_width="match_parent"
-        android:layout_height="100dp"/>
+        android:layout_height="150dp"
+        android:text="visualize"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:gravity="center"
+        />
 
 </LinearLayout>

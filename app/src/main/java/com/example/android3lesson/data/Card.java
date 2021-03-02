@@ -3,7 +3,6 @@ package com.example.android3lesson.data;
 import java.util.Objects;
 
 public class Card<CardContent> {
-
     private boolean isFaceUp;
     private boolean isMatched;
     private CardContent Content;
@@ -12,7 +11,7 @@ public class Card<CardContent> {
     public Card(boolean isFaceUp, boolean isMatched, CardContent content, int id) {
         this.isFaceUp = isFaceUp;
         this.isMatched = isMatched;
-        Content = content;
+        this.Content = content;
         this.id = id;
     }
 
@@ -37,7 +36,7 @@ public class Card<CardContent> {
     }
 
     public void setContent(CardContent content) {
-        Content = content;
+        this.Content = content;
     }
 
     public int getId() {
@@ -53,7 +52,9 @@ public class Card<CardContent> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card<?> card = (Card<?>) o;
-        return Objects.equals(Content, card.Content);
+        return id == card.id && isFaceUp == card.isFaceUp &&
+                isMatched == card.isMatched &&
+                Objects.equals(Content, card.Content);
     }
 
     @Override

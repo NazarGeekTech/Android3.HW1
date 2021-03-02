@@ -1,30 +1,29 @@
 package com.example.android3lesson.ui;
 
 import android.graphics.Color;
-import android.location.GpsStatus;
-import android.net.sip.SipAudioCall;
-import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.android3lesson.R;
 import com.example.android3lesson.data.Card;
 
 public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiHolder> {
 
-    private final EmogiGame game;
-    private final Listener listener;
+    public EmogiGame game;
+    private  final ClickListener listener;
 
-    public EmojiAdapter(EmogiGame game, Listener listener) {
-        this.game = game;
+    public EmojiAdapter(ClickListener listener, EmogiGame game) {
         this.listener = listener;
-        notifyDataSetChanged();
+        this.game = game;
     }
+
     @NonNull
     @Override
     public EmojiHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,7 +33,8 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiHolder>
 
     @Override
     public void onBindViewHolder(@NonNull EmojiHolder holder, int position) {
-        holder.bind(game.getCards().get(position));
+       holder.bind(game.getCards().get(position));
+
     }
 
     @Override
@@ -44,28 +44,31 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiHolder>
 
     class EmojiHolder extends RecyclerView.ViewHolder {
 
-        private final Listener listener;
-        private final TextView tvCard;
+        private ClickListener listener;
+        private ImageView imageList;
 
-        public EmojiHolder(@NonNull View itemView, Listener listener) {
+        public EmojiHolder(@NonNull View itemView, ClickListener listener) {
             super(itemView);
             this.listener = listener;
-            tvCard = itemView.findViewById(R.id.tv_card);
+            imageList = itemView.findViewById(R.id.tv_CardList);
         }
 
-        public void bind(Card<String> card) {
-            itemView.setOnClickListener(v -> listener.cardClick(card));
+        public void bind(Card<Integer> card) {
+            itemView.setOnClickListener(v -> listener.listener(card));
             if (card.isFaceUp()) {
-                tvCard.setBackgroundColor(Color.BLUE);
-                tvCard.setText(card.getContent());
+                imageList.setBackgroundColor(Color.BLUE);
+                imageList.setImageResource(card.getContent());
+                YoYo.with(Techniques.FlipInY)
+                        .duration(2000)
+                        .playOn(imageList);
             } else {
-                tvCard.setBackgroundResource(R.drawable.volk);
-                tvCard.setText("");
+                imageList.setImageResource(R.drawable.volk);
             }
         }
     }
 
-    interface Listener {
-        void cardClick(Card<String> card);
+    interface ClickListener{
+        void listener(Card<Integer> card);
     }
 }
+
