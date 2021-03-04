@@ -1,19 +1,20 @@
 package com.example.android3lesson.data;
 
-import android.os.CountDownTimer;
-import android.util.Log;
+import android.content.Context;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Game<CardContent> {
 
     private static final String tag = "gameClass";
     private final List<Card<CardContent>> cards = new ArrayList<>();
+    private Context context;
 
-    public Game(List<CardContent> contents) {
+    public Game(List<CardContent> contents, Context context) {
+        this.context = context;
         for (int i = 0; i < contents.size(); i++) {
             cards.add(new Card<>(false, false, contents.get(i), i * 2));
             cards.add(new Card<>(false, false, contents.get(i), i * 2 + 1));
@@ -43,6 +44,7 @@ public class Game<CardContent> {
         }
         removePair();
     }
+
     private void removePair() {
         List<Card<CardContent>> newList = new ArrayList<>(cards);
         for (Card<CardContent> card : cards) {
@@ -51,10 +53,17 @@ public class Game<CardContent> {
         }
         cards.clear();
         cards.addAll(newList);
+        if (cards.size() == 0) {
+            endGame(context);
+        }
     }
 
     public List<Card<CardContent>> getCards() {
         return cards;
+    }
+
+    public void endGame(Context context) {
+        if (getCards().size() == 0) Toast.makeText(context, "GAME OVER", Toast.LENGTH_LONG).show();
     }
 }
 

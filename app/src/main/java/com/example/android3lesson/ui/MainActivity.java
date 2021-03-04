@@ -6,14 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.android3lesson.R;
 import com.example.android3lesson.data.Card;
+import com.example.android3lesson.data.Game;
 
 public class MainActivity extends AppCompatActivity implements EmojiAdapter.ClickListener {
 
     private static final String tag = "mainActivity";
+
     EmojiAdapter adapter;
     EmogiGame game;
     RecyclerView recyclerView;
@@ -30,17 +31,15 @@ public class MainActivity extends AppCompatActivity implements EmojiAdapter.Clic
     @RequiresApi(api = Build.VERSION_CODES.R)
     private void initviews() {
         recyclerView = findViewById(R.id.rv_cards);
-        game = new EmogiGame();
+        game = new EmogiGame(this);
         adapter = new EmojiAdapter(this, game);
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override
     public void listener(Card<Integer> card) {
         game.choose(card);
         adapter.notifyDataSetChanged();
-        if (game.getCards().size() == 0)
-            Toast.makeText(this, "GAME OVER", Toast.LENGTH_LONG).show();
-
     }
 }
